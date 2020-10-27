@@ -45,14 +45,7 @@ decoder := yaml.NewDecoder(f)
 err = decoder.Decode(&cfg)
 
 conn, err := sql.Open("mysql", cfg.Database.Username+":"+cfg.Database.Password+"@tcp("+cfg.Server.Dbname+")/cars")
-db.SetMaxOpenConns(100)
-
-    if err != nil {
-        w.WriteHeader(500)
-        conn.Close()
-        return
-    }
-
+sql.SetMaxOpenConns(100)
 
 if err != nil {
     return
