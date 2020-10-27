@@ -1,0 +1,8 @@
+# Server configurations
+server:
+  dbname: "mymariadb"
+
+# Database credentials
+database:
+  user: "dbuser"
+  pass: "dbuser"
