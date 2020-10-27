@@ -33,7 +33,7 @@ type Config struct {
 
 var cfg Config
 
-var conn *sql.db
+var conn *sql.DB
 
 var err error
 
@@ -45,7 +45,7 @@ decoder := yaml.NewDecoder(f)
 err = decoder.Decode(&cfg)
 
 conn, err := sql.Open("mysql", cfg.Database.Username+":"+cfg.Database.Password+"@tcp("+cfg.Server.Dbname+")/cars")
-sql.SetMaxOpenConns(100)
+conn.SetMaxOpenConns(100)
 
 if err != nil {
     return
@@ -92,7 +92,7 @@ func newrentalInput(w http.ResponseWriter, r *http.Request) {
 
     statement, err := conn.Query("insert into rentals values(?, ?, ?, ?)", id_db, requestMessage.Brand, requestMessage.Model, requestMessage.HorsePow)
 
-    if err != nil {
+    if err != nil && statement == nil {
         w.WriteHeader(500)
         //conn.Close()
         return
