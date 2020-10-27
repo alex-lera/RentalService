@@ -115,7 +115,7 @@ func newrentalInput(w http.ResponseWriter, r *http.Request) {
 
     w.WriteHeader(200)
 
-    fmt.Fprintln(w, "ID = ", id_db, ", Brand =", requestMessage.Brand, ", Model =", requestMessage.Model, ", Horse Power =", requestMessage.HorsePow)
+    fmt.Fprintln(w, "Hola. ID = ", id_db, ", Brand =", requestMessage.Brand, ", Model =", requestMessage.Model, ", Horse Power =", requestMessage.HorsePow)
 
     conn.Close()
     
