@@ -23,12 +23,12 @@ type RequestMessage struct {
 
 type Config struct {
     Server struct {
-        Dbname string `yaml:"dbname"`
-    } `yaml:"server"`
+        Dbname string 'yaml:"dbname"'
+    } 'yaml:"server"'
     Database struct {
-        Username string `yaml:"user"`
-        Password string `yaml:"pass"`
-    } `yaml:"database"`
+        Username string 'yaml:"user"'
+        Password string 'yaml:"pass"'
+    } 'yaml:"database"'
 }
 
 var cfg Config
@@ -108,7 +108,7 @@ func newrentalInput(w http.ResponseWriter, r *http.Request) {
 
     w.WriteHeader(200)
 
-    fmt.Fprintln(w, "Hola, soy un servicio nuevo autogenerado. ID = ", id_db, ", Brand =", requestMessage.Brand, ", Model =", requestMessage.Model, ", Horse Power =", requestMessage.HorsePow)
+    fmt.Fprintln(w, "Hola. ID = ", id_db, ", Brand =", requestMessage.Brand, ", Model =", requestMessage.Model, ", Horse Power =", requestMessage.HorsePow)
 
     conn.Close()
     
