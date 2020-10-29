@@ -23,12 +23,12 @@ type RequestMessage struct {
 
 type Config struct {
     Server struct {
-        Dbname string 'yaml:"dbname"'
-    } 'yaml:"server"'
+        Dbname string `yaml:"dbname"`
+    } `yaml:"server"`
     Database struct {
-        Username string 'yaml:"user"'
-        Password string 'yaml:"pass"'
-    } 'yaml:"database"'
+        Username string `yaml:"user"`
+        Password string `yaml:"pass"`
+    } `yaml:"database"`
 }
 
 var cfg Config
