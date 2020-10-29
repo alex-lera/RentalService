@@ -33,19 +33,12 @@ type Config struct {
 
 var cfg Config
 
-var conn *sql.DB
-
-var err error
-
 func main() {
 
 f, err := os.Open("/opt/config.yaml")
     
 decoder := yaml.NewDecoder(f)
-err = decoder.Decode(&cfg)
-
-conn, err := sql.Open("mysql", cfg.Database.Username+":"+cfg.Database.Password+"@tcp("+cfg.Server.Dbname+")/cars")
-conn.SetMaxOpenConns(100)
+err = decoder.Decode(&cfg)       
 
 if err != nil {
     return
@@ -60,8 +53,8 @@ http.ListenAndServe(":8080", router)
 func newrentalInput(w http.ResponseWriter, r *http.Request) {
     
     if(r.Method != "POST"){
-    	w.WriteHeader(405)
-    	return
+        w.WriteHeader(405)
+        return
     }
 
     var requestMessage RequestMessage
@@ -83,28 +76,37 @@ func newrentalInput(w http.ResponseWriter, r *http.Request) {
         w.WriteHeader(422) // unprocessable entity
         
         if err := json.NewEncoder(w).Encode(err); err != nil {
+            w.WriteHeader(500)
             return
         }
 
     }
         
-    id_db := rand.Intn(10000000)
+    conn, err := sql.Open("mysql", cfg.Database.Username+":"+cfg.Database.Password+"@tcp("+cfg.Server.Dbname+")/cars")
 
-    statement, err := conn.Query("insert into rentals values(?, ?, ?, ?)", id_db, requestMessage.Brand, requestMessage.Model, requestMessage.HorsePow)
-
-    if err != nil && statement == nil {
+    if err != nil {
         w.WriteHeader(500)
-        //conn.Close()
+        conn.Close()
         return
     }
 
-    /*rows, err := statement.Exec(id_db, requestMessage.Brand, requestMessage.Model, requestMessage.HorsePow)
+    statement, err := conn.Prepare("insert into rentals values(?, ?, ?, ?)")
+
+    if err != nil {
+        w.WriteHeader(500)
+        conn.Close()
+        return
+    }
+
+    id_db := rand.Intn(10000000)
+
+    rows, err := statement.Exec(id_db, requestMessage.Brand, requestMessage.Model, requestMessage.HorsePow)
 
     if err != nil && rows != nil{
         w.WriteHeader(500)
         conn.Close()
         return
-    }*/
+    }
 
     w.WriteHeader(200)
 
