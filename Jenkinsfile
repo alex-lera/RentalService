@@ -26,7 +26,7 @@ pipeline {
 
     stage('Build') {
       steps {
-        sh 'docker build -t servicerental:${GIT_COMMIT}'
+        sh 'docker build -t servicerental:${GIT_COMMIT} .'
         sh 'docker tag servicerental:${GIT_COMMIT} 192.168.171.135:5000/servicerental:${GIT_COMMIT}'
         sh 'docker push 192.168.171.135:5000/servicerental:${GIT_COMMIT}'
       }
