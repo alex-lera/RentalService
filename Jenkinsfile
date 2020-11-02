@@ -21,7 +21,8 @@ pipeline {
 
         stage('Test') {
           steps {
-            sh 'cd RentalService'
+            sh 'go vet .'
+            sh 'go lint .'
             sh 'go test'
             catchError(buildResult: 'Failure', message: 'BD failure')
           }
