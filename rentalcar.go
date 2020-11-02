@@ -116,3 +116,14 @@ func newrentalInput(w http.ResponseWriter, r *http.Request) {
     
 }
 
+func TestDatabase()(int){
+	
+	conn := cfg.Database.Username+":"+cfg.Database.Password+"@tcp("+cfg.Server.Dbname+")/cars"
+
+    if conn != "dbuser:dbuser@tcp(mymariadb)/cars"{
+        return -1
+    }
+
+    return 0
+
+}
