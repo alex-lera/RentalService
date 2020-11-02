@@ -21,6 +21,8 @@ pipeline {
 
         stage('Test') {
           steps {
+            sh '''PATH+GO=${GOPATH}/bin
+'''
             sh 'go test'
             catchError(buildResult: 'Failure', message: 'BD failure')
           }
