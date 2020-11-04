@@ -8,26 +8,12 @@ pipeline {
       }
     }
 
-    stage('Environment') {
-      parallel {
-        stage('Get dependencies') {
-          steps {
-            echo 'Installing dependencies'
-            sh 'go get "github.com/gorilla/mux"'
-            sh 'go get "github.com/go-sql-driver/mysql"'
-            sh 'go get "gopkg.in/yaml.v2"'
-          }
-        }
-
-        stage('Test') {
-          steps {
-            sh 'go vet .'
-            sh 'go lint .'
-            sh 'go test'
-            catchError(buildResult: 'Failure', message: 'BD failure')
-          }
-        }
-
+    stage('Get dependencies') {
+      steps {
+        echo 'Installing dependencies'
+        sh 'go get "github.com/gorilla/mux"'
+        sh 'go get "github.com/go-sql-driver/mysql"'
+        sh 'go get "gopkg.in/yaml.v2"'
       }
     }
 
